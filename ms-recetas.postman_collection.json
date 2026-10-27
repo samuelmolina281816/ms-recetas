@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "ClinicApp · ms-recetas",
+    "description": "API de recetas con secretos en HashiCorp Vault. Puerto 8080.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Configuracion desde Vault",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/recetas/config",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recetas",
+            "config"
+          ]
+        },
+        "description": "Esperado: 200 OK. farmaciaUrl completa, apiKey enmascarada (****abcd) y firmaConfigurada true."
+      }
+    },
+    {
+      "name": "2. Firmar receta RX-001",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoReceta\": \"RX-001\",\n  \"paciente\": \"Ana Torres\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/recetas/firmar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recetas",
+            "firmar"
+          ]
+        },
+        "description": "Esperado: 200 OK con firma 1a45beed02c70f30"
+      }
+    },
+    {
+      "name": "3. Firmar receta RX-002",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoReceta\": \"RX-002\",\n  \"paciente\": \"Luis Paz\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/recetas/firmar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recetas",
+            "firmar"
+          ]
+        },
+        "description": "Esperado: 200 OK con firma 99feb00014ff424c"
+      }
+    },
+    {
+      "name": "4. Codigo vacio (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoReceta\": \"\",\n  \"paciente\": \"Ana Torres\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/recetas/firmar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "recetas",
+            "firmar"
+          ]
+        },
+        "description": "Esperado: 400 Bad Request (RN-05)"
+      }
+    }
+  ]
+}

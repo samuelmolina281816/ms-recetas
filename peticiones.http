@@ -1,0 +1,14 @@
+### Configuracion cargada desde HashiCorp Vault
+GET http://localhost:8080/api/recetas/config
+
+### Firmar una receta
+POST http://localhost:8080/api/recetas/firmar
+Content-Type: application/json
+
+{ "codigoReceta": "RX-001", "paciente": "Ana Torres" }
+
+### Codigo vacio (400)
+POST http://localhost:8080/api/recetas/firmar
+Content-Type: application/json
+
+{ "codigoReceta": "", "paciente": "Ana Torres" }
